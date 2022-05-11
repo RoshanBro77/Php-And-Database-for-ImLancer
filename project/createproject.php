@@ -52,7 +52,7 @@ if (isset($_FILES['file']) == "") {
 
 
             // preparing a sql query to select data from the database.
-            $chkSql = "SELECT project_subcategory FROM project WHERE project_category = '$project_category'";
+            $chkSql = "SELECT project_subcategory FROM project WHERE project_category = '$project_category' AND project_subcategory='$project_subcategory' AND project_name='$project_name' AND description='$description' AND budget='$budget'";
             // preparing the sql for execution
             $emstmt = $conn->prepare($chkSql);
             // executing the sql
@@ -72,7 +72,7 @@ if (isset($_FILES['file']) == "") {
                     [
                         ':project_category' => $project_category,
                         ':project_subcategory' => $project_subcategory,
-                        ':budget'=>$budget,
+                        ':budget' => $budget,
                         ':project_name' => $project_name,
                         ':duration' => $duration,
                         ':date' => $date,
@@ -80,8 +80,8 @@ if (isset($_FILES['file']) == "") {
                         ':client_id' => $client_id,
                         ':freelancer_id' => $freelancer_id,
                         ':project_status' => $project_status,
-                        ':file' => $file,
-                        ':description'=>$description,
+                        ':file' => $upload_name,
+                        ':description' => $description,
                         ':skill_id' => $skill_id,
 
                     ]
@@ -93,6 +93,8 @@ if (isset($_FILES['file']) == "") {
         }
     }
 }
-
+$last_id = $conn->lastInsertId();
+// array_push($response, array("Status" => "Payment Saved"));
+array_push($response, array("projectid" => "$last_id"));
 // giving the response in json encoded format
 echo (json_encode($response));

@@ -14,7 +14,7 @@ $email = mysqli_fetch_assoc($results)['email'];
 
 if ($email) {
     // $new_pass = md5($new_pass);
-    $sql2 = "UPDATE profile SET password='$password' WHERE email='$email'";
+    $sql2 = "UPDATE profile SET password='$password' WHERE email_id='$email'";
     $stmt2 = $conn->prepare($sql2);
     $stmt2->execute();
     $response[0] = array(

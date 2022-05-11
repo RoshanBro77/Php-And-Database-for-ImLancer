@@ -21,6 +21,22 @@ if (isset($_GET['id'])) {
     }
 
     echo json_encode($response[0], JSON_PRETTY_PRINT);
+} else if (isset($_GET['user_id'])) {
+    $id =  $_GET['user_id'];
+    // this is single movie
+    $sql = "SELECT * FROM notification WHERE reciever_id='$id'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    if ($stmt->rowCount() > 0) {
+        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $response[0] = $row;
+    } else {
+        $response[0] = array(
+            'status' => 'The notification with id doesnot exist'
+        );
+    }
+
+    echo json_encode($response[0], JSON_PRETTY_PRINT);
 } else {
     // this is multiple movies
     $sql = "SELECT * FROM notification";

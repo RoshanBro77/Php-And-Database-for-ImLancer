@@ -6,7 +6,7 @@ header("Access-Control-Allow-Methods: POST");
 include "../conn.php";
 $email = $_GET['email'];
 $response = array();
-$sql = "SELECT * FROM profile WHERE email='$email'";
+$sql = "SELECT * FROM profile WHERE email_id='$email'";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 
@@ -15,6 +15,10 @@ if ($stmt->rowCount() == 0) {
         'status' => "Account with the email doesn't exist."
     );
 } else {
+
+    $sql3 = "DELETE FROM password_resets WHERE email='$email'";
+    $stmt3 = $conn->prepare($sql3);
+    $stmt3->execute();
     $token = rand(100000, 999999);
     $sql2 = "INSERT INTO password_resets(email, token) VALUES ('$email', '$token')";
     $stmt2 = $conn->prepare($sql2);
@@ -33,8 +37,8 @@ if ($stmt->rowCount() == 0) {
     $mail->isSMTP();                      // Set mailer to use SMTP 
     $mail->Host = 'smtp.gmail.com';       // Specify main and backup SMTP servers 
     $mail->SMTPAuth = true;               // Enable SMTP authentication 
-    $mail->Username = 'roshan.sadhasanker.a19@icp.edu.np';   // SMTP username 
-    $mail->Password = 'brucelee';   // SMTP password 
+    $mail->Username = 'crroshan7@gmail.com';   // SMTP username 
+    $mail->Password = 'ksetlbojziikypyx';   // SMTP password 
     $mail->SMTPSecure = 'tls';            // Enable TLS encryption, `ssl` also accepted 
     $mail->Port = 587;                    // TCP port to connect to 
 

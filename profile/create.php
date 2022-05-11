@@ -10,13 +10,13 @@ $address = $_POST['address'];
 $phone = $_POST['phone'];
 $date = $_POST['date'];
 $rating = $_POST['rating'];
-$skill_id=$_POST['skill_id'];
-$profileimage_id=$_POST['profileimage_id'];
-$mydescription=$_POST['mydescription'];
-$myspeciality=$_POST['myspeciality'];
-$document=$_POST['document'];
-$socialmedia=$_POST['socialmedia'];
-$gender=$_POST['gender'];
+$skill_id = $_POST['skill_id'];
+$profileimage_id = $_POST['profileimage_id'];
+$mydescription = $_POST['mydescription'];
+$myspeciality = $_POST['myspeciality'];
+$document = $_POST['document'];
+$socialmedia = $_POST['socialmedia'];
+$gender = $_POST['gender'];
 $notification_id = $_POST['notification_id'];
 
 // array to store the response
@@ -26,20 +26,19 @@ $response = array();
 $upload_name = "";
 
 // check if the file has any data
-if (isset($_FILES['file']) == "" ||isset($_FILES['document']) == "" ) {
+if (isset($_FILES['file']) == "" || isset($_FILES['document']) == "") {
     // there is no data in the file
     array_push($response, array("File" => "No File selected"));
-
 } else {
     // there is some data in the file
     $file_name = $_FILES['file']['name']; // name of the file
     $file_tmp_name = $_FILES['file']['tmp_name']; // temporary name of the file
-    $error = $_FILES['file']['error']; 
+    $error = $_FILES['file']['error'];
     $document_name = $_FILES['document']['name']; // name of the file
     $document_tmp_name = $_FILES['document']['tmp_name']; // temporary name of the file
-    $docerror = $_FILES['document']['error'];// error in the file if any
+    $docerror = $_FILES['document']['error']; // error in the file if any
     // check if there are any error in the file
-    if ($error > 0 || $docerror>0) {
+    if ($error > 0 || $docerror > 0) {
         // return file error response
         array_push($response, array("File" => "Error While uploading"));
     } else {
@@ -56,7 +55,7 @@ if (isset($_FILES['file']) == "" ||isset($_FILES['document']) == "" ) {
 
         // now we have file and a unique file name
         // uploading file to the server in the filder
-        if (move_uploaded_file($file_tmp_name, '../profilepictures/' . $upload_name) || move_uploaded_document($document_tmp_name, '../documents/' . $upload_document_name)) {
+        if (move_uploaded_file($file_tmp_name, '../profilepictures/' . $upload_name) || move_uploaded_file($document_tmp_name, '../documents/' . $upload_document_name)) {
             // file is uploaded
             array_push($response, array("File" => "Uploaded"));
 
@@ -78,10 +77,10 @@ if (isset($_FILES['file']) == "" ||isset($_FILES['document']) == "" ) {
                 VALUES (NULL,:user_name,:password,:email_id,:address,:phone,:date,:notification_id,:profileimage_id,:skill_id,:mydescription,:myspeciality,:document,:socialmedia,:gender)";
                 $stmt = $conn->prepare($sql);
 
-                
+
                 $stmt->execute(
                     [
-                        
+
                         ':user_name' => $user_name,
                         ':password' => $password,
                         ':email_id' => $email_id,
@@ -96,7 +95,7 @@ if (isset($_FILES['file']) == "" ||isset($_FILES['document']) == "" ) {
                         ':document' => $document,
                         ':socialmedia' => $socialmedia,
                         ':gender' => $gender,
-                        
+
                     ]
                 );
                 array_push($response, array("Status" => "Account created"));

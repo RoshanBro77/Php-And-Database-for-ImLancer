@@ -11,12 +11,12 @@ $status = $_POST['status'];
 $response = array();
 
 try {
-    $checkSql = "SELECT user_id FROM bid WHERE  user_id = '$user_id' ";
+    $checkSql = "SELECT user_id FROM bid WHERE  user_id = '$user_id' AND project_id=$project_id ";
     $chkprepare = $conn->prepare($checkSql);
     $chkprepare->execute();
 
     if ($chkprepare->rowCount() > 0) {
-        array_push($response, array("status" => "The bid is already used."));
+        array_push($response, array("status" => "The bid is already applied."));
     } else {
         $sql = "INSERT INTO bid
         (id,project_id,date,user_id,bid_price,status) 
@@ -30,7 +30,7 @@ try {
                 ':user_id' => $user_id,
                 ':bid_price' => $bid_price,
                 ':status' => $status,
-                
+
 
             ]
         );
